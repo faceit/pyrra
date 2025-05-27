@@ -1,5 +1,4 @@
 # Image URL to use all building/pushing image targets
-IMG ?= ghcr.io/pyrra-dev/pyrra:main
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -68,7 +67,7 @@ generate: controller-gen gojsontoyaml ## Generate WebhookConfiguration, ClusterR
 	find jsonnet/controller-gen -type f ! -name '*.json' -delete
 
 docker-build:
-	docker build . -t ${IMG}
+	docker buildx build --platform=linux/amd64 . -t ${IMG} -f Dockerfile.custom
 
 docker-push:
 	docker push ${IMG}
